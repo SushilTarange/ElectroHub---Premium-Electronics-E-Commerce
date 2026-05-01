@@ -3,7 +3,7 @@ import { useShop } from '../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-  const { toggleWishlist, wishlist, addToCart } = useShop();
+  const { toggleWishlist, wishlist, addToCart, user } = useShop();
   const navigate = useNavigate();
 
   const isWished = wishlist.includes(product._id);
@@ -29,7 +29,11 @@ const ProductCard = ({ product }) => {
         <img className="product-card-img" src={product.image} alt={product.name} loading="lazy" />
         <button 
           className={`wish-btn ${isWished ? 'active' : ''}`} 
-          onClick={(e) => { e.stopPropagation(); toggleWishlist(product._id); }} 
+          onClick={(e) => { 
+            e.stopPropagation(); 
+            if (!user) return navigate('/login');
+            toggleWishlist(product._id); 
+          }} 
           title="Wishlist"
         >
           <i className={`${isWished ? 'fa' : 'far'} fa-heart`}></i>
@@ -56,7 +60,12 @@ const ProductCard = ({ product }) => {
         <div className="prod-actions">
           <button 
             className="add-cart-btn" 
-            onClick={(e) => { e.stopPropagation(); addToCart(product); alert('Added to cart!'); }} 
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              if (!user) return navigate('/login');
+              addToCart(product); 
+              alert('Added to cart!'); 
+            }} 
             disabled={product.stock === 0}
           >
             {product.stock === 0 ? 'Out of Stock' : <><i className="fa fa-cart-plus"></i> Add to Cart</>}

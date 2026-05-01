@@ -26,7 +26,7 @@ function App() {
         <Toast />
         <Routes>
           {/* Protected Routes (Main App) */}
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
           <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

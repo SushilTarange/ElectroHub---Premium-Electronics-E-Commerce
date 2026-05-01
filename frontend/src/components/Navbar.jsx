@@ -9,8 +9,6 @@ const Navbar = () => {
   const [searchInput, setSearchInput] = useState('');
   const navigate = useNavigate();
 
-  if (!user) return null;
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchInput.trim()) {

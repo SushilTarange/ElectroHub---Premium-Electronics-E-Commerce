@@ -8,8 +8,6 @@ const CartSidebar = () => {
   const [couponApplied, setCouponApplied] = useState(false);
   const navigate = useNavigate();
 
-  if (!user) return null;
-
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
   const discount = couponApplied ? Math.round(subtotal * 0.10) : 0;
