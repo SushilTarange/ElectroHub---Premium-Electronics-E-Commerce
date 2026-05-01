@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const { protect } = require('../middleware/auth');
+const { admin } = require('../middleware/admin');
 
 // Create order
 router.post('/', protect, async (req, res) => {
@@ -31,11 +32,8 @@ router.get('/user/:userId', protect, async (req, res) => {
 });
 
 // Admin: Get all orders
-router.get('/', protect, async (req, res) => {
+router.get('/', protect, admin, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Admin only' });
-    }
     const orders = await Order.find().sort({ timestamp: -1 });
     res.json(orders);
   } catch (err) {

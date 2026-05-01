@@ -12,8 +12,16 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log('MongoDB connection error:', err));
+  .then(() => console.log('MongoDB connected successfully ✅'))
+  .catch(err => {
+    console.error('MongoDB connection error ❌:');
+    if (err.code === 'ECONNREFUSED' && err.syscall === 'querySrv') {
+      console.error('DNS Error: Your network may be blocking SRV records. Try using a different DNS (like 8.8.8.8) or use the standard MongoDB connection string.');
+    } else if (err.name === 'MongooseServerSelectionError') {
+      console.error('IP Whitelist Error: Ensure your current IP is whitelisted in MongoDB Atlas.');
+    }
+    console.error(err);
+  });
 
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));

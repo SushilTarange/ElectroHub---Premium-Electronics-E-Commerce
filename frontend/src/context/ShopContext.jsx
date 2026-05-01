@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const ShopContext = createContext();
 
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const useShop = () => useContext(ShopContext);
 
 export const ShopProvider = ({ children }) => {
@@ -52,7 +54,7 @@ export const ShopProvider = ({ children }) => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('https://electrohub-premium-electronics-e-commerce.onrender.com/api/products');
+      const res = await axios.get(`${BASE_URL}/api/products`);
       setProducts(res.data);
     } catch (err) {
       console.error('Error fetching products', err);
@@ -62,7 +64,7 @@ export const ShopProvider = ({ children }) => {
   const fetchOrders = async () => {
     if (!user) return;
     try {
-      const res = await axios.get(`https://electrohub-premium-electronics-e-commerce.onrender.com/api/orders/user/${user._id}`);
+      const res = await axios.get(`${BASE_URL}/api/orders/user/${user._id}`);
       setOrders(res.data);
     } catch (err) {
       console.error('Error fetching orders', err);
@@ -70,17 +72,17 @@ export const ShopProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    const res = await axios.post('https://electrohub-premium-electronics-e-commerce.onrender.com/api/users/login', { email, password });
+    const res = await axios.post(`${BASE_URL}/api/users/login`, { email, password });
     setUser(res.data);
   };
 
   const register = async (userData) => {
-    const res = await axios.post('https://electrohub-premium-electronics-e-commerce.onrender.com/api/users/register', userData);
+    const res = await axios.post(`${BASE_URL}/api/users/register`, userData);
     setUser(res.data);
   };
 
   const updateProfile = async (userData) => {
-    const res = await axios.put('https://electrohub-premium-electronics-e-commerce.onrender.com/api/users/profile', userData);
+    const res = await axios.put(`${BASE_URL}/api/users/profile`, userData);
     setUser(res.data);
   };
 
@@ -118,7 +120,7 @@ export const ShopProvider = ({ children }) => {
   };
 
   const placeOrder = async (orderData) => {
-    const res = await axios.post('https://electrohub-premium-electronics-e-commerce.onrender.com/api/orders', orderData);
+    const res = await axios.post(`${BASE_URL}/api/orders`, orderData);
     setCart([]);
     await fetchOrders();
     return res.data;
@@ -126,15 +128,15 @@ export const ShopProvider = ({ children }) => {
 
   // Admin Methods
   const addProduct = async (productData) => {
-    await axios.post('https://electrohub-premium-electronics-e-commerce.onrender.com/api/products', productData);
+    await axios.post(`${BASE_URL}/api/products`, productData);
     await fetchProducts();
   };
   const updateProduct = async (id, productData) => {
-    await axios.put(`https://electrohub-premium-electronics-e-commerce.onrender.com/api/products/${id}`, productData);
+    await axios.put(`${BASE_URL}/api/products/${id}`, productData);
     await fetchProducts();
   };
   const deleteProduct = async (id) => {
-    await axios.delete(`https://electrohub-premium-electronics-e-commerce.onrender.com/api/products/${id}`);
+    await axios.delete(`${BASE_URL}/api/products/${id}`);
     await fetchProducts();
   };
 

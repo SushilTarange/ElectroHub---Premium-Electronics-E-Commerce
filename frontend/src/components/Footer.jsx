@@ -5,8 +5,6 @@ import { useShop } from '../context/ShopContext';
 const Footer = () => {
   const { user, setCurrentCategory } = useShop();
 
-  if (!user) return null;
-
   return (
     <footer className="footer" id="mainFooter">
       <div className="footer-inner">
@@ -46,7 +44,7 @@ const Footer = () => {
       </div>
       <div className="footer-bottom">
         <p>© 2026 ElectroHub. All rights reserved.</p>
-        <p>Design By: Sushil Tarange & AI</p>
+        
         <div className="pay-icons">
           <span>UPI</span><span>VISA</span><span>MC</span><span>RuPay</span><span>EMI</span>
         </div>
